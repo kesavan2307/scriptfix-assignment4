@@ -3,115 +3,120 @@ import { useState } from 'react';
 export default function Home() {
   const [image, setImage] = useState(null);
   const [output, setOutput] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  // Handle image upload preview
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(URL.createObjectURL(file));
     setOutput('');
   };
 
-  // Handle simulated conversion request
-  const handleConvert = async () => {
-    setLoading(true);
-
-    const res = await fetch('/api/convert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: 'Sample handwritten text from image (simulated)' }),
-    });
-
-    const data = await res.json();
-    setOutput(data.result);
-    setLoading(false);
+  const handleConvert = () => {
+    // Simulated output
+    setOutput("✅ Converted notes: 'This is simulated AI-generated content from image!'");
   };
 
   return (
-    <div
-      style={{
-        background: 'repeating-linear-gradient(#fefefe, #fefefe 35px, #e0f7fa 36px)',
-        minHeight: '100vh',
-        fontFamily: '"Comic Sans MS", cursive, sans-serif',
-        padding: '40px',
-        color: '#333',
-      }}
-    >
-      <h1 style={{ fontSize: '2.8rem', textAlign: 'center', marginBottom: '30px' }}>
-        📝 ScriptFix – Handwriting Note Generator
-      </h1>
+    <div style={{ fontFamily: 'Arial, sans-serif' }}>
+      {/* 🔷 Hero Banner */}
+      <div
+        style={{
+          backgroundImage: 'url("/mountain-banner.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '70vh',
+          color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <h1 style={{ fontSize: '3rem', fontWeight: 'bold' }}>ScriptFix – Handwriting to Notes</h1>
+        <p style={{ fontSize: '1.2rem', maxWidth: '500px' }}>
+          Upload handwritten content and convert it into digital notes instantly!
+        </p>
+        <button
+          onClick={() => document.getElementById('upload-section').scrollIntoView({ behavior: 'smooth' })}
+          style={{
+            marginTop: '20px',
+            padding: '12px 24px',
+            backgroundColor: '#f44336',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            cursor: 'pointer',
+          }}
+        >
+          Get Started
+        </button>
+      </div>
 
-      <div style={{ maxWidth: '600px', margin: 'auto', textAlign: 'center' }}>
-        {/* Image upload input */}
+      {/* 🔶 Upload Section */}
+      <section id="upload-section" style={{ padding: '40px', background: '#f9f9f9', textAlign: 'center' }}>
+        <h2>Upload Image & Convert</h2>
         <input
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          style={{
-            background: '#fff',
-            padding: '10px',
-            borderRadius: '8px',
-            marginBottom: '20px',
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-          }}
+          style={{ margin: '20px 0', padding: '10px' }}
         />
-
-        {/* Show uploaded image preview */}
         {image && (
-          <div style={{ marginBottom: '20px' }}>
-            <img
-              src={image}
-              alt="Uploaded"
-              style={{
-                width: '100%',
-                maxWidth: '300px',
-                border: '4px dashed #9575cd',
-                borderRadius: '12px',
-                padding: '6px',
-                backgroundColor: '#f3e5f5',
-              }}
-            />
+          <div style={{ margin: '20px auto' }}>
+            <img src={image} alt="preview" style={{ width: '300px', borderRadius: '12px' }} />
           </div>
         )}
-
-        {/* Convert Button */}
         <button
           onClick={handleConvert}
           style={{
-            background: 'linear-gradient(to right, #7b1fa2, #ba68c8)',
-            color: '#fff',
+            backgroundColor: '#673ab7',
+            color: 'white',
+            padding: '10px 20px',
             border: 'none',
-            padding: '12px 24px',
-            fontSize: '16px',
-            borderRadius: '10px',
+            borderRadius: '8px',
             cursor: 'pointer',
-            fontWeight: 'bold',
-            marginBottom: '30px',
           }}
         >
-          ✨ Convert to Notes
+          Convert to Notes
         </button>
+        {output && (
+          <div
+            style={{
+              marginTop: '20px',
+              padding: '20px',
+              backgroundColor: '#e8f5e9',
+              borderRadius: '8px',
+              maxWidth: '600px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              color: '#2e7d32',
+              fontWeight: 'bold',
+            }}
+          >
+            {output}
+          </div>
+        )}
+      </section>
 
-        {/* Output Box */}
-        <div
-          style={{
-            backgroundColor: '#fff8e1',
-            padding: '20px',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            textAlign: 'left',
-            whiteSpace: 'pre-wrap',
-            fontFamily: '"Segoe Script", cursive',
-            color: '#4e342e',
-          }}
-        >
-          {loading ? '🕒 Converting image...' : output}
+      {/* 🔸 At a Glance Section */}
+      <section style={{ background: '#2c3e50', color: 'white', padding: '40px 20px', textAlign: 'center' }}>
+        <h2>At a Glance</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', marginTop: '20px', flexWrap: 'wrap' }}>
+          <div>
+            <h3>📄 1000+ Notes Converted</h3>
+            <p>Trusted by students and teachers</p>
+          </div>
+          <div>
+            <h3>🖋️ AI Accuracy ~90%</h3>
+            <p>Handwriting analysis with simulated model</p>
+          </div>
+          <div>
+            <h3>🚀 Instant Results</h3>
+            <p>See your results in seconds</p>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
